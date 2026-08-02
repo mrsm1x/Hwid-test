@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>STAKE - Premium Casino App</title>
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/crash.css">
+</head>
+<body>
+
+<div class="app-container">
+  <div class="toast" id="toast"></div>
+
+  <div class="header">
+    <div class="header-left">
+      <div class="avatar" id="headerAvatar">JD</div>
+      <div class="user-info">
+        <span class="username" id="headerUsername">JohnDoe</span>
+        <span class="user-sub">VIP Member</span>
+      </div>
+      <button class="gear-btn" onclick="openProfileModal()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </div>
+    <button class="deposit-btn" onclick="showToast('Deposit feature coming soon!')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      DEPOSIT
+    </button>
+  </div>
+
+  <div class="content" id="contentArea">
+    <!-- HOME Tab -->
+    <div class="tab-content active" id="tab-home">
+      <div class="home-balance-section">
+        <div class="balance-label">Total Balance</div>
+        <div class="balance-amount" id="mainBalance">$1,250.00</div>
+        <div class="wallet-id">
+          <span>0x7a9f...3c4d</span>
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" onclick="showToast('Wallet ID copied!')"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </div>
+      </div>
+      <div class="about-section">
+        <div class="about-title">About Project</div>
+        <div class="about-buttons">
+          <button class="about-btn" onclick="openModal('rules')"><span>Rules &amp; Guidelines</span><span class="arrow">&#8250;</span></button>
+          <button class="about-btn" onclick="openModal('license')"><span>License &amp; Security</span><span class="arrow">&#8250;</span></button>
+          <button class="about-btn" onclick="openModal('support')"><span>Support Center</span><span class="arrow">&#8250;</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- INVEST Tab -->
+    <div class="tab-content" id="tab-invest">
+      <div class="invest-header"><div class="invest-title">Invest</div><div class="invest-subtitle">Earn 1.2% daily returns</div></div>
+      <div class="invest-input-section" id="investInputSection">
+        <div class="input-label">Investment Amount</div>
+        <div class="invest-input-wrapper"><input type="number" class="invest-input" id="investAmount" placeholder="0.00" min="10" inputmode="decimal"><span class="currency-label">USD</span><div class="number-stepper"><button type="button" aria-label="Increase investment" onclick="stepNumberInput('investAmount', 10)"><svg viewBox="0 0 12 8" aria-hidden="true"><path d="m1 7 5-5 5 5"/></svg></button><button type="button" aria-label="Decrease investment" onclick="stepNumberInput('investAmount', -10)"><svg viewBox="0 0 12 8" aria-hidden="true"><path d="m1 1 5 5 5-5"/></svg></button></div></div>
+        <button class="invest-now-btn" id="investNowBtn" onclick="makeInvestment()">INVEST NOW</button>
+      </div>
+      <div class="active-investment" id="activeInvestment" style="display: none;">
+        <div class="active-label"><span class="pulse-dot"></span>Active Investment</div>
+        <div class="active-amount" id="activeAmount">$0.00</div>
+        <div class="active-profit" id="activeProfit">+ $0.00 profit</div>
+        <div class="progress-container"><div class="progress-bar-bg"><div class="progress-bar-fill" id="investProgress" style="width: 0%"></div></div></div>
+        <div class="countdown-timer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>Time remaining:</span><span class="timer-value" id="investTimer">24:00:00</span></div>
+      </div>
+    </div>
+
+    <!-- PLAY Tab -->
+    <div class="tab-content" id="tab-play">
+      <div class="play-header"><div class="play-title">Games</div></div>
+      <div class="games-grid">
+        <div class="game-card" onclick="openCrashGame()">
+          <div class="game-preview game-preview-crash">
+            <div class="crash-chart"><div class="crash-line"></div><div class="crash-multiplier">x2.45</div></div>
+          </div>
+          <div class="game-info"><div class="game-name">Crash</div><div class="game-desc">Watch the multiplier grow. Cash out before it crashes!</div><button class="play-game-btn">PLAY NOW</button></div>
+        </div>
+        <div class="game-card" onclick="openMinesGame()">
+          <div class="game-preview game-preview-mines">
+            <div class="mines-grid-preview">
+              <div class="mine-cell revealed"></div><div class="mine-cell"></div><div class="mine-cell revealed"></div><div class="mine-cell"></div><div class="mine-cell"></div>
+              <div class="mine-cell"></div><div class="mine-cell mine"></div><div class="mine-cell"></div><div class="mine-cell revealed"></div><div class="mine-cell"></div>
+              <div class="mine-cell"></div><div class="mine-cell"></div><div class="mine-cell"></div><div class="mine-cell revealed"></div><div class="mine-cell"></div>
+              <div class="mine-cell"></div><div class="mine-cell"></div><div class="mine-cell"></div><div class="mine-cell"></div><div class="mine-cell"></div>
+              <div class="mine-cell"></div><div class="mine-cell"></div><div class="mine-cell"></div><div class="mine-cell"></div><div class="mine-cell"></div>
+            </div>
+          </div>
+          <div class="game-info"><div class="game-name">Mines</div><div class="game-desc">Find coins, avoid mines. Cash out anytime!</div><button class="play-game-btn">PLAY NOW</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REWARDS Tab -->
+    <div class="tab-content" id="tab-rewards">
+      <div class="rewards-header"><div class="rewards-title">Daily Bonuses</div></div>
+      <div class="wheel-section">
+        <div class="wheel-container"><div class="wheel-pointer"></div><div class="wheel" id="fortuneWheel"><div class="wheel-center"></div></div></div>
+        <button class="spin-btn" id="spinBtn" onclick="spinWheel()">SPIN</button>
+        <div class="spin-timer" id="spinTimer">Next spin available now!</div>
+      </div>
+      <div class="tasks-section">
+        <div class="tasks-title">Missions</div>
+        <div class="task-card"><div class="task-info"><div class="task-name">Subscribe to Telegram</div><div class="task-reward">+ $5.00</div></div><button class="task-btn" onclick="completeTask(this, 'telegram')">COMPLETE</button></div>
+        <div class="task-card"><div class="task-info"><div class="task-name">Follow on Twitter</div><div class="task-reward">+ $3.00</div></div><button class="task-btn" onclick="completeTask(this, 'twitter')">COMPLETE</button></div>
+        <div class="task-card"><div class="task-info"><div class="task-name">Share Referral Link</div><div class="task-reward">+ $10.00</div></div><button class="task-btn" onclick="completeTask(this, 'referral')">COMPLETE</button></div>
+      </div>
+    </div>
+
+    <!-- TOP Tab -->
+    <div class="tab-content" id="tab-top">
+      <div class="top-header"><div class="top-title">Top Investors</div><div class="top-subtitle">Weekly leaderboard rewards</div></div>
+      <div class="payout-timer"><span class="payout-label">Next payout in:</span><span class="payout-countdown" id="payoutTimer">5d 12:34:56</span></div>
+      <div class="leaderboard">
+        <div class="leaderboard-header"><span>Rank</span><span>Player</span><span style="text-align:right">Invested</span></div>
+        <div id="leaderboardBody">
+          <div class="leaderboard-row top-1"><div class="rank-badge rank-1">1</div><div class="leader-user"><div class="leader-avatar">CR</div><span class="leader-name">CryptoKing</span></div><div class="leader-amount">$45,230</div></div>
+          <div class="leaderboard-row top-2"><div class="rank-badge rank-2">2</div><div class="leader-user"><div class="leader-avatar">ST</div><span class="leader-name">StakeMaster</span></div><div class="leader-amount">$38,450</div></div>
+          <div class="leaderboard-row top-3"><div class="rank-badge rank-3">3</div><div class="leader-user"><div class="leader-avatar">WH</div><span class="leader-name">WhaleAlert</span></div><div class="leader-amount">$31,200</div></div>
+          <div class="leaderboard-row"><div class="rank-badge rank-other">4</div><div class="leader-user"><div class="leader-avatar">DL</div><span class="leader-name">DiamondHands</span></div><div class="leader-amount">$24,800</div></div>
+          <div class="leaderboard-row"><div class="rank-badge rank-other">5</div><div class="leader-user"><div class="leader-avatar">MO</div><span class="leader-name">MoonShot</span></div><div class="leader-amount">$19,500</div></div>
+          <div class="leaderboard-row"><div class="rank-badge rank-other">6</div><div class="leader-user"><div class="leader-avatar">BT</div><span class="leader-name">BTC_Hodler</span></div><div class="leader-amount">$15,300</div></div>
+          <div class="leaderboard-row"><div class="rank-badge rank-other">7</div><div class="leader-user"><div class="leader-avatar">AL</div><span class="leader-name">AlphaTrader</span></div><div class="leader-amount">$12,100</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <button class="nav-item" data-tab="invest" onclick="switchTab('invest')"><svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg><span class="nav-label">Invest</span></button>
+    <button class="nav-item" data-tab="play" onclick="switchTab('play')"><svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg><span class="nav-label">Play</span></button>
+    <button class="nav-item active" data-tab="home" onclick="switchTab('home')"><svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span class="nav-label">Home</span></button>
+    <button class="nav-item" data-tab="rewards" onclick="switchTab('rewards')"><svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span class="nav-label">Rewards</span></button>
+    <button class="nav-item" data-tab="top" onclick="switchTab('top')"><svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span class="nav-label">Top</span></button>
+  </div>
+
+  <!-- Modals -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header"><span class="modal-title" id="modalTitle">Title</span><button class="modal-close" onclick="closeModal()">&times;</button></div>
+      <div class="modal-body" id="modalBody">Content goes here...</div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="profileModal" onclick="closeProfileModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header"><span class="modal-title">Profile Settings</span><button class="modal-close" onclick="closeProfileModal()">&times;</button></div>
+      <div class="modal-body">
+        <div class="profile-form">
+          <div class="form-group"><label class="form-label">Username</label><input type="text" class="form-input" id="profileUsername" value="JohnDoe"></div>
+          <div class="form-group"><label class="form-label">Avatar</label><button class="about-btn" style="justify-content:center; margin-top:4px;" onclick="showToast('Avatar upload coming soon!')"><span>Upload New Avatar</span></button></div>
+          <div class="form-group"><label class="form-label">Wallet ID</label><div class="referral-box"><span class="referral-code">0x7a9f...3c4d</span><button class="copy-btn" onclick="showToast('Wallet ID copied!')">Copy</button></div></div>
+          <div class="form-group"><label class="form-label">Referral Program</label><div class="referral-box"><span class="referral-code">STAKE-JD-2026</span><button class="copy-btn" onclick="showToast('Referral link copied!')">Copy Link</button></div><div class="referral-stats"><div class="referral-stat"><div class="referral-stat-value">12</div><div class="referral-stat-label">Referrals</div></div><div class="referral-stat"><div class="referral-stat-value">$60</div><div class="referral-stat-label">Earned</div></div></div></div>
+          <button class="invest-now-btn" onclick="saveProfile()">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Crash Pro Game Overlay (ЗАМЕНЕНО НА НОВУЮ ИГРУ) -->
+  <div class="crash-game" id="crashGame">
+    <div class="crash-header">
+      <button class="crash-back" type="button" aria-label="Back to games" onclick="closeCrashGame()">&#8592;</button>
+      <span class="game-title">CRASH</span>
+      <button class="sound-btn" id="soundToggleBtn" type="button" aria-label="Toggle crash game sound">
+        <svg id="soundIcon" width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+      </button>
+    </div>
+    <div class="crash-pro-wrapper">
+      <div class="game-wrapper">
+        <div class="history-bar" id="historyBar"></div>
+        <div class="main-layout">
+          <div class="stage-container" id="stageBox">
+            <canvas id="crashCanvas"></canvas>
+            <div class="multiplier-overlay" id="multiplierOverlay"><div class="multiplier-val" id="multiplierDisplay">1.00x</div><div class="status-text" id="statusDisplay">PREPARING NEXT ROUND...</div></div>
+            <div class="loading-overlay" id="loadingOverlay"><div class="loading-card"><div class="loading-title">Next round starts in</div><div class="countdown-num" id="countdownNum">5</div><div class="progress-bar-container"><div class="progress-bar-fill" id="progressBarFill"></div></div></div></div>
+          </div>
+          <div class="control-panel">
+            <div class="input-row">
+              <div class="input-box"><div class="input-header"><div class="input-label">Bet amount ($)</div><label class="toggle-switch"><input type="checkbox" id="autoBetToggle"><span class="switch-slider"></span><span>Auto bet</span></label></div><div class="input-field-wrapper number-control"><input type="number" id="betInput" value="10.00" min="1" step="1" inputmode="decimal"><div class="number-stepper"><button type="button" aria-label="Increase bet" onclick="stepNumberInput('betInput', 1)"><svg viewBox="0 0 12 8" aria-hidden="true"><path d="m1 7 5-5 5 5"/></svg></button><button type="button" aria-label="Decrease bet" onclick="stepNumberInput('betInput', -1)"><svg viewBox="0 0 12 8" aria-hidden="true"><path d="m1 1 5 5 5-5"/></svg></button></div></div><div class="quick-bet-grid"><button class="btn-quick" type="button" onclick="adjustBet(0.5)">½</button><button class="btn-quick" type="button" onclick="adjustBet(2)">2×</button><button class="btn-quick" type="button" onclick="addBet(10)">+10</button><button class="btn-quick" type="button" onclick="addBet(50)">+50</button></div></div>
+              <div class="input-box"><div class="input-header"><div class="input-label">Auto cash out</div><label class="toggle-switch"><input type="checkbox" id="autoCashoutToggle"><span class="switch-slider"></span><span>On</span></label></div><div class="input-field-wrapper number-control"><input type="number" id="autoCashoutInput" value="2.00" min="1.01" step="0.1" inputmode="decimal"><div class="number-stepper"><button type="button" aria-label="Increase auto cash out" onclick="stepNumberInput('autoCashoutInput', 0.1)"><svg viewBox="0 0 12 8" aria-hidden="true"><path d="m1 7 5-5 5 5"/></svg></button><button type="button" aria-label="Decrease auto cash out" onclick="stepNumberInput('autoCashoutInput', -0.1)"><svg viewBox="0 0 12 8" aria-hidden="true"><path d="m1 1 5 5 5-5"/></svg></button></div></div></div>
+            </div>
+            <button class="action-btn bet" id="actionBtn" type="button">PLACE BET</button>
+          </div>
+        </div>
+        <div class="live-panel"><div class="live-header"><span>Player</span><span>Bet</span><span>Status</span></div><div class="bets-list" id="betsList"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mines-game" id="minesGame">
+    <div class="crash-header">
+      <button class="crash-back" type="button" aria-label="Back to games" onclick="closeMinesGame()">&#8592;</button>
+      <span class="game-title">MINES</span>
+      <button class="sound-btn" id="minesSoundToggleBtn" type="button" aria-label="Toggle mines game sound"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg></button>
+    </div>
+    <div class="mines-pro-wrapper">
+      <div class="mines-pro">
+        <div class="mines-stats" aria-live="polite"><div class="mines-stat"><span>Mines / gems</span><strong id="minesRatioVal">3 / 22</strong></div><div class="mines-stat mines-stat-center"><span>Multiplier</span><strong class="mines-gold" id="minesMultiplierVal">1.00x</strong></div><div class="mines-stat mines-stat-right"><span>Current win</span><strong class="mines-win" id="minesWinVal">$0.00</strong></div></div>
+        <div class="mines-stage"><div class="mines-grid mines-pro-grid" id="minesGrid"></div><div class="mines-result-banner" id="minesResultBanner" aria-live="assertive"><span id="minesResultTitle">WIN</span><strong id="minesResultValue">+$0.00</strong></div></div>
+        <div class="control-panel mines-control-panel">
+          <div class="input-row">
+            <div class="input-box"><div class="input-label">Bet amount ($)</div><div class="input-field-wrapper number-control"><input type="number" id="minesBetInput" value="10.00" min="1" step="1" inputmode="decimal"><div class="number-stepper"><button type="button" aria-label="Increase mines bet" onclick="stepNumberInput('minesBetInput', 1)"><svg viewBox="0 0 12 8" aria-hidden="true"><path d="m1 7 5-5 5 5"/></svg></button><button type="button" aria-label="Decrease mines bet" onclick="stepNumberInput('minesBetInput', -1)"><svg viewBox="0 0 12 8" aria-hidden="true"><path d="m1 1 5 5 5-5"/></svg></button></div></div><div class="quick-bet-grid"><button class="btn-quick" type="button" onclick="adjustMinesBet(0.5)">½</button><button class="btn-quick" type="button" onclick="adjustMinesBet(2)">2×</button><button class="btn-quick" type="button" onclick="addMinesBet(10)">+10</button><button class="btn-quick" type="button" onclick="addMinesBet(50)">+50</button></div></div>
+            <div class="input-box"><div class="input-label">Number of mines</div><div class="input-field-wrapper"><select id="minesSelect" aria-label="Number of mines"><option value="1">1 mine</option><option value="2">2 mines</option><option value="3" selected>3 mines</option><option value="5">5 mines</option><option value="7">7 mines</option><option value="10">10 mines</option><option value="15">15 mines</option><option value="20">20 mines</option><option value="24">24 mines</option></select></div><button class="btn-quick mines-random-btn" id="minesRandomTileBtn" type="button">Random tile</button></div>
+          </div>
+          <button class="action-btn bet" id="minesActionBtn" type="button">PLACE BET</button>
+        </div>
+        <div class="live-panel mines-live-panel"><div class="live-header"><span>Player</span><span>Bet</span><span>Result</span></div><div class="bets-list" id="minesBetsList"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="crash-game legacy-game" id="legacyCrashGame" aria-hidden="true">
+    <div class="crash-header">
+      <button class="crash-back" onclick="closeCrashGame()">&#8592;</button>
+      <span style="font-weight:700; color:var(--yellow-primary)">CRASH PRO</span>
+      <button class="sound-btn" id="soundToggleBtn">
+          <svg id="soundIcon" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
+          </svg>
+      </button>
+    </div>
+    <div class="crash-pro-wrapper">
+        <div class="game-wrapper">
+            <div class="header" style="display: none;"></div> <!-- Hidden original header -->
+            
+            <div class="history-bar" id="historyBar"></div>
+
+            <div class="main-layout">
+                <div class="stage-container" id="stageBox">
+                    <canvas id="crashCanvas"></canvas>
+                    <div class="multiplier-overlay" id="multiplierOverlay">
+                        <div class="multiplier-val" id="multiplierDisplay">1.00x</div>
+                        <div class="status-text" id="statusDisplay">ПОДГОТОВКА К ПОЛЁТУ...</div>
+                    </div>
+                    <div class="loading-overlay" id="loadingOverlay">
+                        <div class="loading-card">
+                            <div class="loading-title">Загрузка следующего раунда</div>
+                            <div class="countdown-num" id="countdownNum">5</div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar-fill" id="progressBarFill"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-panel">
+                    <div class="input-row">
+                        <div class="input-box">
+                            <div class="input-header">
+                                <div class="input-label">Размер ставки ($)</div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="autoBetToggle">
+                                    <span class="switch-slider"></span>
+                                    <span>Авто-ставка</span>
+                                </label>
+                            </div>
+                            <div class="input-field-wrapper">
+                                <input type="number" id="betInput" value="10.00" min="1" step="1">
+                            </div>
+                            <div class="quick-bet-grid">
+                                <button class="btn-quick" onclick="adjustBet(0.5)">½</button>
+                                <button class="btn-quick" onclick="adjustBet(2)">2x</button>
+                                <button class="btn-quick" onclick="addBet(10)">+10</button>
+                                <button class="btn-quick" onclick="addBet(50)">+50</button>
+                            </div>
+                        </div>
+
+                        <div class="input-box">
+                            <div class="input-header">
+                                <div class="input-label">Авто-вывод (Множитель)</div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="autoCashoutToggle">
+                                    <span class="switch-slider"></span>
+                                    <span>Вкл</span>
+                                </label>
+                            </div>
+                            <div class="input-field-wrapper">
+                                <input type="number" id="autoCashoutInput" value="2.00" min="1.01" step="0.1">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="action-btn bet" id="actionBtn">СТАВКА</button>
+                </div>
+            </div>
+
+            <div class="live-panel">
+                <div class="live-header">
+                    <span>ИГРОК</span>
+                    <span>СТАВКА</span>
+                    <span>ВЫИГРЫШ</span>
+                </div>
+                <div class="bets-list" id="betsList"></div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- Mines Game Overlay -->
+  <div class="mines-game legacy-game" id="legacyMinesGame" aria-hidden="true">
+    <div class="crash-header"><button class="crash-back" onclick="closeMinesGame()">&#8592;</button><span style="font-weight:700; color:var(--yellow-primary)">Mines</span><span style="width:40px"></span></div>
+    <div style="flex:1; display:flex; align-items:center; justify-content:center;"><div class="mines-grid" id="minesGrid"></div></div>
+    <div class="mines-controls"><div class="mines-multiplier" id="minesMultiplier">x1.00</div><div class="crash-bet-input" style="margin-bottom:12px;"><input type="number" id="minesBet" placeholder="Bet amount" min="1"><span class="currency-label">USD</span></div><button class="cashout-btn" id="minesCashoutBtn" onclick="cashoutMines()" disabled>CASH OUT</button><button class="invest-now-btn" id="minesStartBtn" onclick="startMines()" style="margin-top:8px;">START GAME</button></div>
+  </div>
+</div>
+
+<!-- Подключаем скрипты -->
+<script src="js/app.js"></script>
+<script src="js/mines.js"></script>
+<script src="js/crash.js"></script>
+
+</body>
+</html>
